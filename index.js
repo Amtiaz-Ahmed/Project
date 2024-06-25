@@ -7,6 +7,9 @@ const db                = require('./config/mongoose-connection');
 const usersRouter       = require('./routes/usersRouter');
 const ownersRouter      = require('./routes/ownersRouter');
 const productsRouter    = require('./routes/ProductsRouter');
+const indexRouter    = require('./routes/indexRouter');
+
+require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));

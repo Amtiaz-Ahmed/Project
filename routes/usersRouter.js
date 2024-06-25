@@ -1,41 +1,13 @@
 const express   = require('express');
 const router    = express.Router();
-const bcrypt    = require('bcrypt');
-const jwt    = require('jsonwebtoken');
-const userModel = require('../models/user-model');
+const { registerUser , loginUser} = require('../controllers/authController');
 
 router.get('/',(req,res)=>{
     res.send('users router')
 });
 
-router.post('/register' , (req,res)=>{
-   try {
-    let { fullname , email, password } = req.body;
+router.post('/register' , registerUser);
 
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt,async function(err, hash) {
-            if (err) {
-                return res.send(err.message);
-            } else {
-                
-            
-            let user = await userModel.create({
-                fullname ,
-                email,
-                password : hash,
-            });
-            let token = jwt.sign({ email, id : user._id }, 'project');
-            res.cookie('token', token);
-            res.send()
-        };   
-        });
-    });
-
-
-   } catch (error) {
-     res.send(error.message)
-   }
-
-})
+router.post('/login' , loginUser);
 
 module.exports = router;
